@@ -1,5 +1,6 @@
 package elements;
 
+import driver.MobileDriver;
 import lombok.Getter;
 import org.openqa.selenium.By;
 
@@ -29,4 +30,10 @@ public class TextField extends BaseElement {
     public void clearField() {
         this.getElement().clear();
     }
+
+    public void setTextFromKeyboard(String text){
+        MobileDriver.getMobileDriver().getKeyboard().pressKey(text);
+    }
+
+
 }

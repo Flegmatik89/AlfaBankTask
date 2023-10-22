@@ -44,7 +44,7 @@ public class MobileDriver {
 
     }
 
-    public static AppiumDriver<?> getInstance() {
+    public static AppiumDriver<?> getMobileDriver() {
         if (instance == null) {
             synchronized (MobileDriver.class) {
                 if (instance == null) {

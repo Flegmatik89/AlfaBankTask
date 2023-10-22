@@ -13,17 +13,17 @@ import java.time.Duration;
 
 @Log4j2
 public class Swipe {
-    private final Dimension dimension = MobileDriver.getInstance().manage().window().getSize();
+    private final Dimension dimension = MobileDriver.getMobileDriver().manage().window().getSize();
     private final int edgeBorder = 15;
     private PointOption pointOptionEnd;
 
     /**
-     * Scrolls the screen from the middle in the specified direction
+     * Скрол экрана от середины в указанном направлении
      *
-     * @param dir indicate direction from enum
+     * @param dir направление
      */
     public void customSwipe(Direction dir) {
-        TouchAction action = new TouchAction(MobileDriver.getInstance());
+        TouchAction action = new TouchAction(MobileDriver.getMobileDriver());
         PointOption scrollStart = PointOption.point(dimension.width / 2, dimension.height / 2);
 
         switch (dir) {
@@ -46,11 +46,17 @@ public class Swipe {
                 .moveTo(pointOptionEnd).release().perform().cancel();
     }
 
+    /**
+     * Скрол экрана от вэб элемента в указанном направлении
+     *
+     * @param dir          направление
+     * @param locatorStart локатор элемента
+     */
     public void swipeFromStartPointElement(By locatorStart, Direction dir) {
-        TouchAction action = new TouchAction(MobileDriver.getInstance());
-        PointOption scrollStart = PointOption.point(MobileDriver.getInstance().findElement(locatorStart).getLocation());
-        int getX = MobileDriver.getInstance().findElement(locatorStart).getLocation().getX();
-        int getY = MobileDriver.getInstance().findElement(locatorStart).getLocation().getY();
+        TouchAction action = new TouchAction(MobileDriver.getMobileDriver());
+        PointOption scrollStart = PointOption.point(MobileDriver.getMobileDriver().findElement(locatorStart).getLocation());
+        int getX = MobileDriver.getMobileDriver().findElement(locatorStart).getLocation().getX();
+        int getY = MobileDriver.getMobileDriver().findElement(locatorStart).getLocation().getY();
 
         switch (dir) {
             case DOWN: // center of footer
@@ -72,8 +78,15 @@ public class Swipe {
                 .moveTo(pointOptionEnd).release().perform();
     }
 
+    /**
+     * Скрол экрана от точки в указанном направлении
+     *
+     * @param dir    направление
+     * @param pointY ось x точки на эране
+     * @param pointX ось y точки на эране
+     */
     public void swipeFromStartPoint(int pointX, int pointY, Direction dir) {
-        TouchAction action = new TouchAction(MobileDriver.getInstance());
+        TouchAction action = new TouchAction(MobileDriver.getMobileDriver());
         PointOption scrollStart = PointOption.point(pointX, pointY);
 
         switch (dir) {
@@ -97,17 +110,17 @@ public class Swipe {
     }
 
     /**
-     * Scrolls the screen from the middle in the specified direction until the element is in view
+     * Скрол экрана от середины в указанном направлении, пока элемент не окажется в поле зрения.
      *
-     * @param locatorNeed locator to be found
-     * @param locatorStop stop locator
-     * @param dir         indicate direction from enum
+     * @param locatorNeed необходимый локатор
+     * @param locatorStop локатор для гарантированной остановки
+     * @param dir         направление
      */
     public boolean swipeToView(By locatorNeed, By locatorStop, Direction dir, int times) {
         for (int i = 0; i <= times; i++) {
             try {
-                if (MobileDriver.getInstance().findElement(locatorNeed).isDisplayed() ||
-                        MobileDriver.getInstance().findElement(locatorStop).isDisplayed()) {
+                if (MobileDriver.getMobileDriver().findElement(locatorNeed).isDisplayed() ||
+                        MobileDriver.getMobileDriver().findElement(locatorStop).isDisplayed()) {
                     return true;
                 }
             } catch (Exception e) {

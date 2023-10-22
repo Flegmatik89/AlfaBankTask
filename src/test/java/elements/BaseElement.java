@@ -12,7 +12,7 @@ import java.util.List;
 
 public abstract class BaseElement {
     private PointOption pointOption;
-    private TouchAction touchAction = new TouchAction(MobileDriver.getInstance());
+    private TouchAction touchAction = new TouchAction(MobileDriver.getMobileDriver());
 
     private final By locator;
     private final String placeholder;
@@ -23,11 +23,14 @@ public abstract class BaseElement {
     }
 
     public List<?> getElements() {
-        return MobileDriver.getInstance().findElements(this.locator);
+        return MobileDriver.getMobileDriver().findElements(this.locator);
     }
 
+    /**
+     * Метод получения веб элемента
+     */
     public WebElement getElement() {
-        return MobileDriver.getInstance().findElement(this.locator);
+        return MobileDriver.getMobileDriver().findElement(this.locator);
     }
 
     public boolean isDisplayed() {
@@ -61,6 +64,9 @@ public abstract class BaseElement {
         return this.getElement().getAttribute(attribute);
     }
 
+    /**
+     * Метод получения локации элемента
+     */
     public Point takeLocation(){
         return getElement().getLocation();
     }
